@@ -27,8 +27,8 @@ const server = http.createServer(app);
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://solvia-store.up.railway.app",
-  "https://solvia-store.vercel.app",
+  "https://onlinestore-production-cdfb.up.railway.app",
+  "https://online-store-cyan-tau.vercel.app",
 ];
 
 const io = new Server(server, {
