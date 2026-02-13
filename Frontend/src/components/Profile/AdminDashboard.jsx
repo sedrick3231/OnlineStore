@@ -25,10 +25,13 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
+        const token = localStorage.getItem("adminAccessToken");
+        const headers = token ? { Authorization: `Bearer ${token}` } : { withCredentials: true };
+
         const [usersRes, revenueRes, statsRes] = await Promise.all([
           axios.get(`${url}/user/api/v1/getusers`, { withCredentials: true }),
-          axios.get(`${url}/admin/api/v1/stats/revenue`, { withCredentials: true }),
-          axios.get(`${url}/admin/api/v1/stats/overview`, { withCredentials: true }),
+          axios.get(`${url}/admin/api/v1/stats/revenue`, { headers }),
+          axios.get(`${url}/admin/api/v1/stats/overview`, { headers }),
         ]);
 
         if (usersRes.data.success) setUsers(usersRes.data.users);
