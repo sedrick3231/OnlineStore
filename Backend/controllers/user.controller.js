@@ -124,6 +124,7 @@ export const Login = async (req, res) => {
       success: true,
       message: "User logged in successfully",
       user: user,
+      token: token,
     });
   } catch (error) {
     console.error(error);

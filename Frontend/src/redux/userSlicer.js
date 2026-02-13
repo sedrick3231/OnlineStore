@@ -29,7 +29,7 @@ export const loginUser = createAsyncThunk(
         });
       }
       // Normal successful login with user info
-      return { user: data.user };
+      return { user: data.user, token: data.token };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -121,11 +121,14 @@ const userSlice = createSlice({
         } else {
           // Normal login success
           state.user = action.payload.user;
-          state.token = action.payload.token || null; // if your backend sends token here
+          state.token = action.payload.token || null;
           state.isLoggedIn = true;
           state.otpRequired = false;
           state.emailForOTP = null;
           localStorage.setItem("user", JSON.stringify(action.payload.user));
+          if (action.payload.token) {
+            localStorage.setItem("adminAccessToken", action.payload.token);
+          }
         }
       })
       .addCase(loginUser.rejected, (state, action) => {

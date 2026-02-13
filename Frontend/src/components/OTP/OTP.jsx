@@ -57,6 +57,10 @@ const OTP = ({
           setUserId(res.data.user._id);
           setUpdatePassword(true);
         } else {
+          // Store the token for admin/authenticated requests
+          if (res.data.token) {
+            localStorage.setItem("adminAccessToken", res.data.token);
+          }
           dispatch(LoginUser(res.data.user));
           navigate("/login");
         }
