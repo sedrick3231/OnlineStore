@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { Sparkles } from "lucide-react";
 import StarRatingDisplay from "../Products/StarRatingDisplay";
 import { addToCart } from "../../redux/cartSlicer";
@@ -46,7 +45,7 @@ export default function PopularProducts() {
             <p className="section-subtitle">No popular products available.</p>
           ) : (
             popularProducts.map((product) => (
-              <Link key={product._id} to={`/show-product/${product._id}`} className="product-card" aria-label={`View details for ${product.name}`}>
+              <a key={product._id} href={`/show-product/${product._id}`} className="product-card" aria-label={`View details for ${product.name}`}>
                 <div className="product-media">
                   {product.popular && <div className="product-badge">Bestseller</div>}
                   {product.isOnSale && (
@@ -144,7 +143,7 @@ export default function PopularProducts() {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </a>
             ))
           )}
         </div>

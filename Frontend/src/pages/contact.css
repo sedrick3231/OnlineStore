@@ -3,7 +3,7 @@
 .contact-container{
   min-height:100vh;
   background:#f8f9fa;
-  padding:clamp(40px, 6vw, 60px) clamp(20px, 4vw, 40px);
+  padding:var(--header-height) clamp(20px, 4vw, 40px) clamp(40px, 6vw, 60px);
   position:relative;
   overflow:hidden;
 }
@@ -14,7 +14,7 @@
   position:absolute;
   width:300px;
   height:300px;
-  background:rgba(99,102,241,0.03);
+  background:rgba(26,95,90,0.03);
   border-radius:50%;
   top:-100px;
   right:-100px;
@@ -26,7 +26,7 @@
   position:absolute;
   width:250px;
   height:250px;
-  background:rgba(99,102,241,0.02);
+  background:rgba(26,95,90,0.02);
   border-radius:50%;
   bottom:-80px;
   left:-80px;
@@ -109,7 +109,7 @@
   content:'';
   position:absolute;
   inset:0;
-  background:linear-gradient(135deg, rgba(99, 102, 241, 0.1), transparent);
+  background:linear-gradient(135deg, rgba(26, 95, 90, 0.1), transparent);
   opacity:0;
   transition:opacity var(--transition-slow);
   z-index:0;
@@ -144,7 +144,7 @@
 .contact-icon{
   width:60px;
   height:60px;
-  background:linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(99, 102, 241, 0.1));
+  background:linear-gradient(135deg, rgba(26, 95, 90, 0.2), rgba(26, 95, 90, 0.1));
   border-radius:16px;
   display:flex;
   align-items:center;
@@ -153,12 +153,12 @@
   transition:all var(--transition-slow);
   position:relative;
   z-index:1;
-  border:1.5px solid rgba(99, 102, 241, 0.3);
+  border:1.5px solid rgba(26, 95, 90, 0.3);
 }
 
 .contact-card:hover .contact-icon{
   transform:scale(1.12) rotate(-8deg);
-  background:linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(99, 102, 241, 0.2));
+  background:linear-gradient(135deg, rgba(26, 95, 90, 0.3), rgba(26, 95, 90, 0.2));
   border-color:var(--accent);
 }
 
@@ -290,15 +290,15 @@
 }
 
 .form-input:hover, .form-textarea:hover{
-  border-color:rgba(99, 102, 241, 0.4);
-  box-shadow:0 4px 12px rgba(99, 102, 241, 0.08);
+  border-color:rgba(26, 95, 90, 0.4);
+  box-shadow:0 4px 12px rgba(26, 95, 90, 0.08);
 }
 
 .form-input:focus, .form-textarea:focus{
   outline:none;
   border-color:var(--accent);
-  box-shadow:0 0 0 5px rgba(99, 102, 241, 0.2), 0 4px 16px rgba(99, 102, 241, 0.12);
-  background:rgba(99, 102, 241, 0.02);
+  box-shadow:0 0 0 5px rgba(26, 95, 90, 0.2), 0 4px 16px rgba(26, 95, 90, 0.12);
+  background:rgba(26, 95, 90, 0.02);
 }
 
 .form-textarea{
@@ -311,7 +311,7 @@
 .btn-send{
   width:100%;
   padding:clamp(14px, 2.5vw, 18px) clamp(24px, 4vw, 32px);
-  background:linear-gradient(135deg, var(--accent), var(--accent-2));
+  background:var(--accent);
   color:#fff;
   border:none;
   border-radius:16px;
@@ -474,7 +474,7 @@
   height:100%;
   top:0;
   left:0;
-  background:linear-gradient(135deg, rgba(99, 102, 241, 0.05), transparent);
+  background:linear-gradient(135deg, rgba(26, 95, 90, 0.05), transparent);
   opacity:0;
   transition:opacity var(--transition-slow);
   z-index:0;

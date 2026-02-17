@@ -9,12 +9,54 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  preview: {
-    host: true,
-    port: Number(process.env.PORT) || 4173,
-    allowedHosts: [
-      'solvia-store.up.railway.app',
-      'localhost'
-    ],
+  server: {
+    middlewareMode: false,
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost',
+      port: 5173,
+    },
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0'
+    }
   },
+  css: {
+    devSourcemap: false,
+  },
+  build: {
+    assetsDir: 'assets',
+    rollupOptions: {
+      output: {
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name.split('.');
+          const ext = info[info.length - 1];
+          if (/png|jpe?g|gif|svg/.test(ext)) {
+            return `assets/images/[hash][extname]`;
+          } else if ('css' === ext) {
+            return `assets/css/[hash][extname]`;
+          }
+          return `assets/[name]-[hash][extname]`;
+        },
+        manualChunks: {
+          'vendor': ['react', 'react-dom', 'react-router-dom'],
+          'redux': ['@reduxjs/toolkit', 'react-redux'],
+          'ui': ['framer-motion', 'lucide-react', 'react-icons'],
+        }
+      }
+    },
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    }
+  },
+  preview: {
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate'
+    }
+  }
 })

@@ -1,13 +1,15 @@
 {
-  "name": "frontend",
+  "name": "lams-store",
+  "description": "LAMS - Premium Fashion & Accessories E-commerce Store",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "preview": "vite preview",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "analyze": "vite-plugin-visualizer"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -39,7 +41,8 @@
     "react-router-dom": "^7.6.0",
     "react-toastify": "^11.0.5",
     "recharts": "^2.15.3",
-    "socket.io-client": "^4.8.1"
+    "socket.io-client": "^4.8.1",
+    "use-sync-external-store": "^1.6.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

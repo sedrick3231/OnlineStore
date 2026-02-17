@@ -49,7 +49,7 @@ export default function ContactUs() {
             </div>
             <div className="contact-details">
               <h3 className="contact-label">Email</h3>
-              <p className="contact-value">support@solvia.com</p>
+              <p className="contact-value">support@lams.com</p>
               <p className="contact-meta">We reply within 24 hours</p>
             </div>
           </div>
@@ -73,7 +73,7 @@ export default function ContactUs() {
             </div>
             <div className="contact-details">
               <h3 className="contact-label">Address</h3>
-              <p className="contact-value">Solvia Store Headquarters</p>
+              <p className="contact-value">LAMS Headquarters</p>
               <p className="contact-meta">Karachi, Pakistan</p>
             </div>
           </div>

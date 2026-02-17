@@ -1,7 +1,7 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Filter, X } from "lucide-react";
 import StarRatingDisplay from "../components/Products/StarRatingDisplay";
@@ -46,7 +46,7 @@ function FilterPanel({
             </Select>
           </div>
         </div>
-
+                <br></br>
         <div className="shop-filter-divider"></div>
 
         {/* Sale Filter */}
@@ -67,7 +67,7 @@ function FilterPanel({
             </Select>
           </div>
         </div>
-
+                <br></br>
         <div className="shop-filter-divider"></div>
 
         <div className="shop-filter-section">
@@ -333,7 +333,7 @@ export default function Shop() {
             ) : (
               <div className="shop-grid">
                 {visibleProducts.map((product) => (
-                  <Link key={product._id} to={`/show-product/${product._id}`} className="shop-card">
+                  <a key={product._id} href={`/show-product/${product._id}`} className="shop-card">
                     <div className="shop-card-media">
                       {product.isOnSale && (
                         <div className="shop-card-sale-badge">
@@ -430,7 +430,7 @@ export default function Shop() {
                         </button>
                       </div>
                     </div>
-                  </Link>
+                  </a>
                 ))}
               </div>
             )}

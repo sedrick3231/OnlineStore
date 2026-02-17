@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
-import { Menu, Moon, Sun, X, ShoppingCart } from "lucide-react";
+import { Menu, Dot, X, ShoppingCart } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { logout, updateUser } from "../../redux/userSlicer";
@@ -14,10 +14,30 @@ export default function UserNavbar() {
   const { isLoggedIn } = useSelector((state) => state.user);
   const { cartItems } = useSelector((state) => state.cart);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isOnHero, setIsOnHero] = useState(false);
   const menuRef = useRef(null);
+  const headerRef = useRef(null);
 
   const cartCount = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
+  // Detect scroll and hero section position
+  useEffect(() => {
+    const handleScroll = () => {
+      const hero = document.querySelector('.hero');
+      if (hero) {
+        const heroRect = hero.getBoundingClientRect();
+        // Check if header is still over the hero section
+        const isOver = heroRect.top < 100; // Header is 72px, add some buffer
+        setIsOnHero(!isOver);
+      } else {
+        setIsOnHero(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Call once on mount
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     dispatch(updateUser());
@@ -63,11 +83,11 @@ export default function UserNavbar() {
   ];
 
   return (
-    <header className="site-header" style={{ height: "var(--header-height)" }}>
+    <header ref={headerRef} className={`site-header ${isOnHero ? 'on-hero' : ''}`} style={{ height: "var(--header-height)" }}>
       <nav className="container site-nav">
         <Link to="/" className="brand">
-          <div className="logo">S</div>
-          <span>Solvia</span>
+          <img src="/Logo2.png" alt="LAMS" className="navbar-logo" />
+          <span>LAMS</span>
         </Link>
 
         <div className="nav-links">
@@ -83,7 +103,7 @@ export default function UserNavbar() {
           {isLoggedIn && (
             <NavLink to="/cart" className="icon-btn cart-badge">
               <ShoppingCart className="w-6 h-6" />
-              {cartCount > 0 && <span className="count">{cartCount}</span>}
+              {cartCount > 0 && <span className="count" style={{ width: '13px', height: '13px', backgroundColor: '#bc0000', borderRadius: '50%', display: 'block' }}></span>}
             </NavLink>
           )}
 
@@ -113,7 +133,7 @@ export default function UserNavbar() {
               <div className="mobile-drawer-header">
                 <div className="mobile-brand">
                   <div>
-                    <div className="mobile-brand-title">Solvia</div>
+                    <div className="mobile-brand-title">LAMS</div>
                     <div className="mobile-brand-subtitle">Premium wear</div>
                   </div>
                 </div>

@@ -32,7 +32,6 @@ export default function SettingsPage() {
             >
               {tab === "shipping" && "📍 Shipping Address"}
               {tab === "security" && "🔐 Security"}
-              {tab === "preferences" && "⚙️ Preferences"}
             </button>
           );
         })}
@@ -45,9 +44,6 @@ export default function SettingsPage() {
         )}
         {activeTab === "security" && (
           <SecuritySettingsSection userId={userId} />
-        )}
-        {activeTab === "preferences" && (
-          <OrderPreferencesSection />
         )}
       </section>
     </div>
@@ -387,88 +383,3 @@ function SecuritySettingsSection({ userId }) {
   );
 }
 
-// Order Preferences
-function OrderPreferencesSection() {
-  const [formData, setFormData] = useState({
-    deliverySlot: "morning",
-    emailNotif: true,
-    smsNotif: false,
-  });
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
-  };
-
-  const handleSave = () => {
-    // TODO: Implement preferences save
-    alert("This feature is not implemented yet.");
-  };
-
-  return (
-    <div className="settings-section">
-      <h2 className="settings-section-title">Order Preferences</h2>
-      <p className="settings-section-description">
-        Customize how you receive order updates and delivery preferences.
-      </p>
-
-      <form className="settings-form">
-        {/* Delivery Slot */}
-        <div className="settings-form-group">
-          <label className="settings-label">Preferred Delivery Time</label>
-          <select
-            name="deliverySlot"
-            value={formData.deliverySlot}
-            onChange={handleChange}
-            className="settings-select"
-          >
-            <option value="morning">Morning (8AM - 12PM)</option>
-            <option value="afternoon">Afternoon (12PM - 4PM)</option>
-            <option value="evening">Evening (4PM - 8PM)</option>
-          </select>
-        </div>
-
-        {/* Notifications */}
-        <div style={{ marginTop: "24px", paddingTop: "24px", borderTop: "1.5px solid var(--border-light)" }}>
-          <p className="settings-section-title" style={{ marginBottom: "20px" }}>
-            Notifications
-          </p>
-
-          {/* Email Notifications */}
-          <label className="settings-checkbox">
-            <input
-              type="checkbox"
-              name="emailNotif"
-              checked={formData.emailNotif}
-              onChange={handleChange}
-            />
-            <span>Email notifications for order status updates</span>
-          </label>
-
-          {/* SMS Notifications */}
-          <label className="settings-checkbox">
-            <input
-              type="checkbox"
-              name="smsNotif"
-              checked={formData.smsNotif}
-              onChange={handleChange}
-            />
-            <span>SMS notifications for order status updates</span>
-          </label>
-        </div>
-
-        {/* Submit Button */}
-        <button
-          type="button"
-          onClick={handleSave}
-          className="btn-save-settings"
-        >
-          Save Preferences
-        </button>
-      </form>
-    </div>
-  );
-}

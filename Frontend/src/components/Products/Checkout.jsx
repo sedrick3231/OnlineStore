@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import axios from "axios";
 import { createOrder, getOrder } from "../../redux/OrderSlicer";
 import { clearCart } from "../../redux/cartSlicer";
 import { updateUser } from "../../redux/userSlicer";
@@ -74,7 +75,7 @@ export default function ElegantCheckoutPage() {
     setStep(2);
   };
 
-  const onSubmitPayment = () => {
+  const onSubmitPayment = async () => {
     if (!cartItems.length) return toast.error("Your cart is empty!");
 
     // Validate stock availability before placing order - Check against latest product stock from Redux
@@ -97,6 +98,31 @@ export default function ElegantCheckoutPage() {
     if (stockErrors.length > 0) {
       stockErrors.forEach((error) => toast.error(error));
       return;
+    }
+
+    // If user doesn't have a saved address and used a new address, save it as default
+    if (!hasSavedAddress && shippingData && !useSavedAddress) {
+      try {
+        const shippingAddress = {
+          address: shippingData.address,
+          city: shippingData.city,
+          state: shippingData.state,
+          postalCode: shippingData.postalCode,
+          phone: shippingData.phone,
+        };
+
+        await axios.post(
+          `${url}/user/settings/updateAddress/${user._id}`,
+          { shippingAddress },
+          { withCredentials: true }
+        );
+        
+        // Update Redux store with new address
+        dispatch(updateUser({ ShippingAddress: shippingAddress }));
+      } catch (error) {
+        console.error("Failed to save default address:", error);
+        // Don't block order if address save fails
+      }
     }
 
     const productsForOrder = cartItems.map((item) => ({
@@ -207,9 +233,9 @@ export default function ElegantCheckoutPage() {
                       {/* Option 2: Use Different Address */}
                       <label style={{
                         padding: '12px',
-                        border: !useSavedAddress ? '2px solid #3b82f6' : '1.5px solid #e5e7eb',
+                        border: !useSavedAddress ? '2px solid #1a5f5a' : '1.5px solid #e5e7eb',
                         borderRadius: '10px',
-                        background: !useSavedAddress ? 'rgba(59, 130, 246, 0.1)' : 'white',
+                        background: !useSavedAddress ? 'rgba(26, 95, 90, 0.1)' : 'white',
                         cursor: 'pointer',
                         transition: 'all 0.3s ease',
                         display: 'flex',
@@ -229,7 +255,7 @@ export default function ElegantCheckoutPage() {
                             cursor: 'pointer',
                             flexShrink: 0,
                             marginTop: '2px',
-                            accentColor: '#3b82f6'
+                            accentColor: '#1a5f5a'
                           }}
                         />
                         <div style={{ flex: 1 }}>

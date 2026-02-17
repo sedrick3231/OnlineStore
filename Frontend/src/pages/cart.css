@@ -3,7 +3,8 @@
 .cart-container{
   min-height:100vh;
   background:#f8f9fa;
-  padding-top:var(--space-lg);
+  padding-top:var(--header-height);
+  padding-bottom:var(--space-lg);
 }
 
 .cart-header{
@@ -154,7 +155,7 @@
   border:1.5px solid var(--border-light);
   border-radius:12px;
   padding:6px 8px;
-  background:rgba(99,102,241,0.05);
+  background:rgba(26,95,90,0.05);
 }
 
 .qty-btn-cart{
@@ -173,7 +174,7 @@
 }
 
 .qty-btn-cart:hover:not(:disabled){
-  background:rgba(99,102,241,0.15);
+  background:rgba(26,95,90,0.15);
   color:var(--accent);
 }
 
@@ -310,10 +311,11 @@
 }
 
 .btn-checkout{
-  width:100%;
+  max-width:100%;
   padding:14px 20px;
-  background:linear-gradient(135deg, var(--accent), var(--accent-2));
-  color:#fff;
+  /* background:linear-gradient(135deg, var(--accent), var(--accent-2)); */
+  outline: 2px solid var(--accent);
+  color:var(--accent-2);
   border:none;
   border-radius:14px;
   font-weight:700;
@@ -356,7 +358,7 @@
 
 .btn-continue-shopping:hover{
   border-color:var(--accent);
-  background:rgba(99,102,241,0.05);
+  background:rgba(26,95,90,0.05);
 }
 
 /* Responsive Design */

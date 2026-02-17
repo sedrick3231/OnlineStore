@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Facebook, Instagram, Twitter, Linkedin, Mail } from "lucide-react";
 
 export default function Footer() {
   const categories = useSelector((state) => state.categories.items);
@@ -21,9 +22,11 @@ export default function Footer() {
     { label: "Contact Us", to: "/contact-us" },
   ];
 
-  const accountLinks = [
-    { label: "Login", to: "/login" },
-    { label: "Sign Up", to: "/signup" },
+  const socialLinks = [
+    { label: "Facebook", url: "https://facebook.com/lamsstore", icon: Facebook },
+    { label: "Instagram", url: "https://instagram.com/lamsstore", icon: Instagram },
+    { label: "LinkedIn", url: "https://linkedin.com/company/lamsstore", icon: Linkedin },
+    { label: "Email", url: "mailto:support@lams.com", icon: Mail },
   ];
 
   return (
@@ -31,9 +34,10 @@ export default function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <div className="footer-logo">Solvia</div>
+            <img src="/Logo2.png" alt="LAMS" className="footer-logo-img" />
+            <p className="footer-brand-name">LAMS</p>
             <p className="footer-description">
-              Curated designer wear and modern traditional fashion, thoughtfully made for everyday elegance.
+              Premium fashion and accessories, thoughtfully curated for modern elegance and timeless style.
             </p>
           </div>
 
@@ -62,19 +66,29 @@ export default function Footer() {
           </div>
 
           <div className="footer-section">
-            <h4>Account</h4>
-            <ul>
-              {accountLinks.map((item) => (
-                <li key={item.label}>
-                  <Link to={item.to}>{item.label}</Link>
-                </li>
-              ))}
-            </ul>
+            <h4>Follow Us</h4>
+            <div className="footer-social-links">
+              {socialLinks.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={item.label}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="social-link"
+                    title={item.label}
+                  >
+                    <Icon size={20} />
+                  </a>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         <div className="footer-legal">
-          <p style={{ color: "white" }}>© {new Date().getFullYear()} Solvia. All rights reserved.</p>
+          <p style={{ color: "white" }}>© {new Date().getFullYear()} LAMS. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -69,7 +69,7 @@ function Login() {
       <div className="auth-shell">
         <div className="auth-hero">
           <div>
-            <div className="auth-badge">Solvia Atelier</div>
+            <div className="auth-badge">LAMS Studio</div>
             <h1>Welcome back</h1>
             <p>Access your saved styles, orders, and curated drops in seconds.</p>
           </div>
@@ -163,7 +163,7 @@ function Login() {
           </form>
 
           <div className="auth-divider">
-            <span>New to Solvia?</span>
+            <span>New to LAMS?</span>
           </div>
 
           <div className="auth-footer-note">

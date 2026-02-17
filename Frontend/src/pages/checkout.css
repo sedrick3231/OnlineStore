@@ -3,7 +3,7 @@
 .checkout-container{
   min-height:100vh;
   background:#f8f9fa;
-  padding-top:var(--space-lg);
+  padding-top:var(--header-height);
   padding-bottom:var(--space-2xl);
 }
 
@@ -161,13 +161,13 @@
 }
 
 .form-input:hover, .form-select:hover{
-  border-color:rgba(99, 102, 241, 0.25);
+  border-color:rgba(26, 95, 90, 0.25);
 }
 
 .form-input:focus, .form-select:focus{
   outline:none;
   border-color:var(--accent);
-  box-shadow:0 0 0 4px rgba(99, 102, 241, 0.15);
+  box-shadow:0 0 0 4px rgba(26, 95, 90, 0.15);
 }
 
 .form-select{
@@ -308,7 +308,7 @@
   width:80px;
   height:80px;
   margin:0 auto var(--space-lg);
-  background:linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(99, 102, 241, 0.08));
+  background:linear-gradient(135deg, rgba(26, 95, 90, 0.15), rgba(26, 95, 90, 0.08));
   border-radius:16px;
   display:flex;
   align-items:center;

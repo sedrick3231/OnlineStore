@@ -1,37 +1,69 @@
-/* Home page section styling */
-
 /* ====================== Sale Banner ====================== */
 
 .sale-banner {
   position: relative;
-  background: linear-gradient(135deg, #111827 0%, #1f2937 40%, #dc2626 100%);
-  padding: 18px 22px;
+  overflow: hidden;
+  padding: 20px 24px;
   margin: 0;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.35);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  animation: slideDown 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  animation: slideDown 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-bottom: 2px solid rgba(26, 95, 90, 0.3);
+  z-index: 10;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-100%);
+/* Animated gradient background */
+.sale-banner-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    #1a5f5a 0%,
+    #0f3a37 25%,
+    #1a5f5a 50%,
+    #2a7f7a 75%,
+    #1a5f5a 100%
+  );
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
+  z-index: -1;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
   }
-  to {
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.sale-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(201, 168, 96, 0.15) 0%, transparent 50%);
+  opacity: 0;
+  animation: glow 4s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes glow {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
 .sale-banner:hover {
-  box-shadow: 0 18px 48px rgba(239, 68, 68, 0.35), 0 8px 24px rgba(15, 23, 42, 0.25);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 60px rgba(26, 95, 90, 0.4), 0 10px 30px rgba(201, 168, 96, 0.2);
 }
 
 .sale-banner-content {
@@ -42,162 +74,444 @@
   color: white;
   z-index: 1;
   position: relative;
+  min-width: 0;
+}
+
+/* Icon wrapper with badge */
+.sale-banner-icon-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sale-banner-icon {
   position: relative;
-  width: 44px;
-  height: 44px;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.08));
+  border-radius: 16px;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
 }
 
 .sale-banner-icon svg {
-  color: white;
+  color: #fbbf24;
   position: absolute;
 }
 
+.sale-banner-zap {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
 .sale-banner-sparkle {
-  animation: sparkle 1.5s ease-in-out infinite;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
 }
 
 @keyframes sparkle {
   0%, 100% {
-    opacity: 0;
-    transform: scale(0);
+    opacity: 0.3;
+    transform: scale(0.8) rotate(0deg);
   }
   50% {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1.1) rotate(180deg);
   }
 }
 
+/* HOT badge */
+.sale-banner-badge {
+  position: absolute;
+  top: -5px;
+  right: -8px;
+  background: linear-gradient(135deg, #ff6b6b, #ff5252);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Text section */
 .sale-banner-text {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   flex: 1;
   min-width: 0;
 }
 
 .sale-banner-title {
-  font-size: clamp(14px, 2vw, 19px);
-  font-weight: 800;
-  letter-spacing: 0.5px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sale-banner-title-text {
+  font-size: clamp(16px, 3vw, 24px);
+  font-weight: 900;
+  letter-spacing: -0.5px;
   text-transform: uppercase;
   white-space: nowrap;
+  font-family: var(--font-heading);
+}
+
+.sale-banner-title-accent {
+  font-size: clamp(14px, 2.5vw, 20px);
+  font-weight: 700;
+  color: #fbbf24;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 0.9;
+    color: #fbbf24;
+  }
+  50% {
+    opacity: 1;
+    color: #fcd34d;
+  }
 }
 
 .sale-banner-subtitle {
-  font-size: clamp(12px, 1.5vw, 14px);
+  font-size: clamp(12px, 2vw, 14px);
   font-weight: 500;
-  opacity: 0.9;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  opacity: 0.95;
+  line-height: 1.4;
+  margin: 0;
 }
 
-.sale-banner-subtitle strong {
+.sale-banner-discount {
   color: #fbbf24;
-  font-weight: 800;
+  font-weight: 900;
+  font-size: 1.2em;
+  animation: discountPulse 1s ease-in-out infinite;
 }
 
+@keyframes discountPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Metrics section */
 .sale-banner-metrics {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 6px 14px;
-  border-radius: 999px;
+  gap: 0;
+  padding: 10px 14px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
   flex-shrink: 0;
+  box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.1);
 }
 
 .sale-banner-metric {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
+  align-items: center;
+  gap: 3px;
+  padding: 0 12px;
   min-width: 0;
+  transition: all 300ms ease;
+}
+
+.sale-banner-metric:hover {
+  opacity: 1;
+  transform: scale(1.05);
 }
 
 .sale-banner-metric-label {
   font-size: 10px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.75);
-  font-weight: 700;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 800;
 }
 
 .sale-banner-metric-value {
-  font-size: 14px;
-  font-weight: 800;
-  color: #fff;
+  font-size: 16px;
+  font-weight: 900;
+  color: #fbbf24;
+  font-family: var(--font-heading);
 }
 
+.sale-banner-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 4px;
+}
+
+/* CTA Button */
 .sale-banner-cta {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  background: #ffffff;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
   color: #111827;
-  padding: 8px 16px;
-  border-radius: 999px;
-  font-weight: 800;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 900;
   font-size: 12px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   white-space: nowrap;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
   text-transform: uppercase;
+  box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
 }
 
-.sale-banner:hover .sale-banner-cta {
+.sale-banner-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: translateX(-100%);
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.sale-banner-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(251, 191, 36, 0.4), 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.sale-banner-cta:active {
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
 }
 
+.sale-banner-arrow {
+  transition: transform 300ms ease;
+}
+
+.sale-banner-cta:hover .sale-banner-arrow {
+  transform: translateX(2px);
+}
+
+/* Close button */
 .sale-banner-close {
-  width: 32px;
-  height: 32px;
-  border: none;
-  background: rgba(255, 255, 255, 0.12);
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.1);
   color: white;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 200ms ease;
   flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  font-size: 0;
+}
+
+.sale-banner-close svg {
+  font-size: 18px;
 }
 
 .sale-banner-close:hover {
   background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .sale-banner {
+    padding: 18px 20px;
+    gap: 16px;
+  }
+
+  .sale-banner-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .sale-banner-metrics {
+    padding: 8px 12px;
+  }
+
+  .sale-banner-metric {
+    padding: 0 10px;
+  }
+
+  .sale-banner-cta {
+    padding: 8px 16px;
+    font-size: 11px;
+  }
 }
 
 @media (max-width: 768px) {
   .sale-banner {
     padding: 14px 16px;
-    gap: 14px;
+    gap: 12px;
+    flex-wrap: wrap;
   }
 
   .sale-banner-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .sale-banner-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .sale-banner-content {
+    gap: 12px;
+    flex: 1 1 auto;
+  }
+
+  .sale-banner-title-text {
+    font-size: 14px;
+  }
+
+  .sale-banner-title-accent {
+    font-size: 12px;
+  }
+
+  .sale-banner-subtitle {
+    font-size: 11px;
+  }
+
+  .sale-banner-metrics {
+    padding: 6px 10px;
+    order: 3;
+    flex: 1 1 auto;
+  }
+
+  .sale-banner-metric {
+    padding: 0 8px;
+  }
+
+  .sale-banner-metric-value {
+    font-size: 14px;
+  }
+
+  .sale-banner-cta {
+    padding: 7px 14px;
+    font-size: 10px;
+    order: 2;
+  }
+
+  .sale-banner-close {
+    width: 34px;
+    height: 34px;
+    order: 1;
+  }
+
+  .sale-banner-close svg {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sale-banner {
+    padding: 12px 12px;
+    gap: 10px;
+  }
+
+  .sale-banner-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .sale-banner-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .sale-banner-title-text {
+    font-size: 13px;
+  }
+
+  .sale-banner-title-accent {
+    font-size: 11px;
+  }
+
+  .sale-banner-subtitle {
+    font-size: 10px;
+    line-height: 1.3;
+  }
+
+  .sale-banner-metrics {
+    display: none;
+  }
+
+  .sale-banner-cta {
+    padding: 6px 12px;
+    font-size: 9px;
+  }
+
+  .sale-banner-cta svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .sale-banner-close {
     width: 32px;
     height: 32px;
   }
 
-  .sale-banner-title {
-    font-size: 13px;
+  .sale-banner-close svg {
+    font-size: 14px;
   }
+}
 
   .sale-banner-subtitle {
     font-size: 11px;
@@ -352,7 +666,7 @@
   content:'';
   position:absolute;
   inset:0;
-  background:linear-gradient(135deg,rgba(99,102,241,0.06),rgba(79,70,229,0.03));
+  background:linear-gradient(135deg,rgba(26,95,90,0.06),rgba(26,95,90,0.03));
   opacity:0;
   transition:opacity 0.4s ease;
   z-index:0;
@@ -362,7 +676,7 @@
   content:'';
   position:absolute;
   inset:0;
-  background:radial-gradient(circle at 50% -50%,rgba(99,102,241,0.15),transparent 70%);
+  background:radial-gradient(circle at 50% -50%,rgba(26,95,90,0.15),transparent 70%);
   opacity:0;
   transition:opacity 0.4s ease;
   z-index:0;
@@ -370,8 +684,8 @@
 
 .category-card:hover{
   transform:translateY(-12px) scale(1.02);
-  box-shadow:0 28px 56px rgba(99,102,241,0.22), 0 12px 24px rgba(0,0,0,0.1);
-  border-color:rgba(99,102,241,0.6);
+  box-shadow:0 28px 56px rgba(26,95,90,0.22), 0 12px 24px rgba(0,0,0,0.1);
+  border-color:rgba(26,95,90,0.6);
 }
 
 .category-card:hover::before{
@@ -385,7 +699,7 @@
 .category-media {
   width: 100%;
   aspect-ratio: 3 / 4;
-  background: linear-gradient(135deg, rgba(99,102,241,0.06), rgba(79,70,229,0.02));
+  background: linear-gradient(135deg, rgba(26,95,90,0.06), rgba(26,95,90,0.02));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -425,13 +739,13 @@
   font-weight: 900;
   color: var(--accent);
   text-transform: uppercase;
-  text-shadow: 0 4px 12px rgba(99,102,241,0.3);
+  text-shadow: 0 4px 12px rgba(26,95,90,0.3);
   transition: all 0.3s ease;
 }
 
 .category-card:hover .category-media span{
   transform: scale(1.1);
-  text-shadow: 0 6px 20px rgba(99,102,241,0.5);
+  text-shadow: 0 6px 20px rgba(26,95,90,0.5);
 }
 
 .category-name{
@@ -441,7 +755,7 @@
   position: relative;
   color: var(--primary);
   padding: 20px 18px;
-  background: linear-gradient(135deg,var(--surface),rgba(99,102,241,0.02));
+  background: linear-gradient(135deg,var(--surface),rgba(26,95,90,0.02));
   border-top: 2px solid var(--border-light);
   transition: all 0.4s ease;
   letter-spacing: 0.5px;
@@ -450,12 +764,12 @@
 }
 
 .category-card:hover .category-name {
-  background: linear-gradient(135deg,rgba(99,102,241,0.08),rgba(79,70,229,0.05));
+  background: linear-gradient(135deg,rgba(26,95,90,0.08),rgba(201,168,96,0.05));
   background: linear-gradient(135deg,var(--accent),var(--accent-2));
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
   background-clip:text;
-  border-top-color: rgba(99,102,241,0.4);
+  border-top-color: rgba(26,95,90,0.4);
   letter-spacing: 1px;
 }
 
@@ -485,7 +799,7 @@
   content:'';
   position:absolute;
   inset:0;
-  background:linear-gradient(135deg,rgba(99,102,241,0.03),transparent);
+  background:linear-gradient(135deg,rgba(26,95,90,0.03),transparent);
   opacity:0;
   transition:opacity 0.4s ease;
   z-index:0;
@@ -494,8 +808,8 @@
 
 .product-card:hover{
   transform:translateY(-10px) scale(1.01);
-  box-shadow:0 24px 48px rgba(99,102,241,0.18), 0 8px 16px rgba(0,0,0,0.08);
-  border-color:rgba(99,102,241,0.5);
+  box-shadow:0 24px 48px rgba(26,95,90,0.18), 0 8px 16px rgba(0,0,0,0.08);
+  border-color:rgba(26,95,90,0.5);
 }
 
 .product-card:hover::before{
@@ -740,7 +1054,7 @@
   align-items:center;
   justify-content:center;
   border:none;
-  background:rgba(99,102,241,0.08);
+  background:rgba(26,95,90,0.08);
   color:var(--primary);
   font-weight:700;
   font-size:16px;
@@ -749,7 +1063,7 @@
 }
 
 .product-qty-btn:hover{
-  background:rgba(99,102,241,0.15);
+  background:rgba(26,95,90,0.15);
   color:var(--accent);
 }
 
@@ -792,7 +1106,7 @@
   overflow:hidden;
   border-radius:28px;
   padding:clamp(40px,6vw,56px);
-  background:linear-gradient(135deg,#1f2937 0%,#3f4557 45%,#6366f1 120%);
+  background:linear-gradient(135deg,#1f2937 0%,#3f4557 45%,#1a5f5a 120%);
   color:#fff;
   box-shadow:var(--shadow-2);
   animation:fadeInUp 600ms ease 300ms both;
@@ -820,7 +1134,7 @@
   height:220px;
   left:-60px;
   top:-80px;
-  background:#e0e7ff;
+  background:#f5ede3;
 }
 
 .promo-banner::after{
@@ -828,7 +1142,7 @@
   height:260px;
   right:-80px;
   bottom:-120px;
-  background:#6366f1;
+  background:#1a5f5a;
 }
 
 .promo-actions{
@@ -901,7 +1215,7 @@
   content:'';
   position:absolute;
   inset:0;
-  background:linear-gradient(135deg,rgba(99,102,241,0.05),transparent);
+  background:linear-gradient(135deg,rgba(26,95,90,0.05),transparent);
   opacity:0;
   transition:opacity var(--transition-slow);
 }

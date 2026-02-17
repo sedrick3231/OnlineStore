@@ -4,7 +4,8 @@ import "./notFound.css";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-900 via-primary-800 to-primary-900 px-md">
+    <div style={{ paddingTop: 'var(--header-height)' }}>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-900 via-primary-800 to-primary-900 px-md">
       <div className="text-center">
         {/* 404 */}
         <div className="mb-lg">
@@ -48,6 +49,7 @@ export default function NotFound() {
           </Link>
         </div>
       </div>
+    </div>
     </div>
   );
 }

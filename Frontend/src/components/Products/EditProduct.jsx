@@ -381,7 +381,7 @@ function EditProductForm({ product, onSubmit }) {
               border: "1.5px solid var(--border-light)",
               borderRadius: "16px",
               overflow: "hidden",
-              background: "rgba(99,102,241,0.02)",
+              background: "rgba(26,95,90,0.02)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center"

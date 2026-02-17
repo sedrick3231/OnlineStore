@@ -74,7 +74,7 @@ export default function OrderManagementPage({ orders = [], users = [], onStatusC
   const getStatusColor = (status) => {
     switch (status) {
       case "Pending": return "#f59e0b";
-      case "Shipped": return "#3b82f6";
+      case "Shipped": return "#1a5f5a";
       case "Delivered": return "#10b981";
       case "Cancelled": return "#ef4444";
       default: return "#6b7280";

@@ -4,8 +4,6 @@ const Hero = lazy(() => import("../components/HeroSection/Hero"));
 const BestSellers = lazy(() => import("../components/home/BestSellers"));
 const Categories = lazy(() => import("../components/home/Categories"));
 const NewsletterSignup = lazy(() => import("../components/home/NewsletterSignup"));
-const PromoBanner = lazy(() => import("../components/home/PromoBanner"));
-const Testimonials = lazy(() => import("../components/home/Testimonials"));
 
 const Home = () => {
   return (
@@ -21,9 +19,6 @@ const Home = () => {
       </Suspense>
       <Suspense fallback={null}>
         <BestSellers />
-      </Suspense>
-      <Suspense fallback={null}>
-        <Testimonials />
       </Suspense>
       <Suspense fallback={null}>
         <NewsletterSignup />

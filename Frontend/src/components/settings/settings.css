@@ -3,7 +3,7 @@
 .settings-container{
   max-width:1200px;
   margin:0 auto;
-  padding:clamp(40px, 6vw, 60px) clamp(20px, 4vw, 40px);
+  padding:var(--header-height) clamp(20px, 4vw, 40px) clamp(40px, 6vw, 60px);
   background:#f8f9fa;
   min-height:100vh;
   position:relative;
@@ -16,7 +16,7 @@
   position:absolute;
   width:300px;
   height:300px;
-  background:rgba(99,102,241,0.03);
+  background:rgba(26,95,90,0.03);
   border-radius:50%;
   top:-150px;
   right:-150px;
@@ -28,7 +28,7 @@
   position:absolute;
   width:250px;
   height:250px;
-  background:radial-gradient(circle, rgba(99, 102, 241, 0.08), transparent);
+  background:radial-gradient(circle, rgba(26, 95, 90, 0.08), transparent);
   border-radius:50%;
   bottom:-100px;
   left:-100px;
@@ -171,15 +171,15 @@
 }
 
 .settings-input:hover, .settings-textarea:hover, .settings-select:hover{
-  border-color:rgba(99, 102, 241, 0.4);
-  box-shadow:0 4px 12px rgba(99, 102, 241, 0.08);
+  border-color:rgba(26, 95, 90, 0.4);
+  box-shadow:0 4px 12px rgba(26, 95, 90, 0.08);
 }
 
 .settings-input:focus, .settings-textarea:focus, .settings-select:focus{
   outline:none;
   border-color:var(--accent);
-  box-shadow:0 0 0 5px rgba(99, 102, 241, 0.2), 0 4px 16px rgba(99, 102, 241, 0.12);
-  background:rgba(99, 102, 241, 0.02);
+  box-shadow:0 0 0 5px rgba(26, 95, 90, 0.2), 0 4px 16px rgba(26, 95, 90, 0.12);
+  background:rgba(26, 95, 90, 0.02);
 }
 
 .settings-input:disabled{
@@ -206,7 +206,7 @@
 }
 
 .settings-checkbox:hover, .settings-radio:hover{
-  background:rgba(99, 102, 241, 0.05);
+  background:rgba(26, 95, 90, 0.05);
 }
 
 .settings-checkbox input[type="checkbox"],
@@ -226,7 +226,7 @@
 
 /* Address Card Display */
 .address-display{
-  background:linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(99, 102, 241, 0.02));
+  background:linear-gradient(135deg, rgba(26, 95, 90, 0.05), rgba(26, 95, 90, 0.02));
   border:1.5px solid var(--border-light);
   border-radius:16px;
   padding:clamp(24px, 3vw, 32px);
@@ -301,13 +301,13 @@
 }
 
 .btn-cancel-settings:hover{
-  background:rgba(99, 102, 241, 0.1);
+  background:rgba(26, 95, 90, 0.1);
   transform:translateY(-2px);
 }
 
 .btn-edit-settings{
   padding:10px 16px;
-  background:rgba(99, 102, 241, 0.1);
+  background:rgba(26, 95, 90, 0.1);
   color:var(--accent);
   border:1.5px solid var(--accent);
   border-radius:12px;
@@ -321,7 +321,7 @@
 }
 
 .btn-edit-settings:hover{
-  background:rgba(99, 102, 241, 0.2);
+  background:rgba(26, 95, 90, 0.2);
   transform:translateY(-1px);
 }
 
@@ -496,7 +496,7 @@
   }
   
   .settings-tab-btn.active{
-    background:rgba(99, 102, 241, 0.05);
+    background:rgba(26, 95, 90, 0.05);
     border-bottom-color:var(--accent);
   }
   

@@ -92,7 +92,7 @@ export default function SignupPage() {
       <div className="auth-shell">
         <div className="auth-hero">
           <div>
-            <div className="auth-badge">New to Solvia</div>
+            <div className="auth-badge">Join LAMS</div>
             <h1>Create your account</h1>
             <p>Save favorites, manage orders, and enjoy a smoother checkout.</p>
           </div>
