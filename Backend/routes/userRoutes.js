@@ -1,5 +1,6 @@
 import express from 'express';
 import { createOrder, getUserOrders, deductStock } from '../controllers/order.controller.js';
+import { getAllCategories } from "../controllers/category.controller.js";
 import { getUsers, Login, Logout, Register, resertingPassword, ResetPasswordLogin, UpdateAddress, updatePassword, UpdateUser } from '../controllers/user.controller.js';
 import { upload } from '../controllers/userImageupload.js';
 import authenticateAdmin from '../middlewares/authentication.js';
@@ -21,6 +22,7 @@ userRoute.route("/api/v1/updatePassword/:id").put(updatePassword);
 userRoute.route("/api/v1/ResetPassword").post(ResetPasswordLogin);
 userRoute.route("/api/v1/Password/:id").put(resertingPassword)
 userRoute.route("/api/v1/getHeroData/:heroId").get(GetheroData);
+userRoute.route("/api/v1/categories").get(getAllCategories);
 userRoute.route("/api/v1/deduct-stock").post(deductStock);
 
 export default userRoute;

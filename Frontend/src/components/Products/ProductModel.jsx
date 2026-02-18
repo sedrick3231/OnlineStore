@@ -17,8 +17,6 @@ export default function ProductPage() {
   if (!product) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#f4f4f5] via-[#e8eaec] to-[#f4f4f5] dark:from-[#0b0b0c] dark:via-[#121215] dark:to-[#0b0b0c] p-6 sm:p-10 transition-colors duration-300">
       <ProductDetails product={product} />
-    </div>
   );
 }

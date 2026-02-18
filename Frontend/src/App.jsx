@@ -14,6 +14,8 @@ import CheckLogin from "./utils/CheckLogin";
 import ResetPasswordLogin from "./pages/ResetPasswordLogin";
 import HeroEditor from "./components/adminPages/heroEditor";
 import { fetchHero } from "./redux/HeroSlicer";
+import { fetchCategories, removeCategory, upsertCategoryFromSocket } from "./redux/categorySlicer";
+import { getOrder } from "./redux/OrderSlicer";
 import SalesManagementPage from "./components/adminPages/SalesManagementPage";
 import OrderManagementPage from "./components/adminPages/OrderManagementPage";
 const RequireAdmin = lazy(() => import("./components/adminPages/isAdmin"));
@@ -291,6 +293,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchProducts());
     dispatch(fetchHero());
+    dispatch(fetchCategories());
 
     socket.on("product:added", (product) => {
       dispatch(fetchProducts());
@@ -298,6 +301,10 @@ function App() {
 
     // Update product
     socket.on("product:updated", (productId) => {
+      dispatch(fetchProducts());
+    });
+
+    socket.on("product:popular", () => {
       dispatch(fetchProducts());
     });
 
@@ -311,16 +318,30 @@ function App() {
       dispatch(fetchHero());
     });
 
+    socket.on("category:created", (category) => {
+      dispatch(upsertCategoryFromSocket(category));
+    });
+
+    socket.on("category:updated", (category) => {
+      dispatch(upsertCategoryFromSocket(category));
+    });
+
+    socket.on("category:deleted", (id) => {
+      dispatch(removeCategory(id));
+    });
+
     // Real-time stock updates
     socket.on("stock:updated", (data) => {
       const { productId, productName, newStock, deductedQuantity, timestamp } = data;
-      console.log(`📦 Real-time stock update: ${productName} → ${newStock} (deducted: ${deductedQuantity})`);
       dispatch(updateProductStock({ productId, newStock }));
     });
 
     // Order created
     socket.on("order:created", (data) => {
-      console.log(`✅ Order created: ${data.orderId} - Amount: $${data.totalAmount}`);
+      const currentUser = JSON.parse(localStorage.getItem("user"));
+      if (currentUser && data?.userId === currentUser._id) {
+        dispatch(getOrder({}));
+      }
     });
 
     // Order error
@@ -331,7 +352,11 @@ function App() {
     return () => {
       socket.off("product:added");
       socket.off("product:updated");
+      socket.off("product:popular");
       socket.off("product:deleted");
+      socket.off("category:created");
+      socket.off("category:updated");
+      socket.off("category:deleted");
       socket.off("stock:updated");
       socket.off("order:created");
       socket.off("order:error");

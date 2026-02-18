@@ -340,8 +340,14 @@
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
   animation: slideUp 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.content::-webkit-scrollbar {
+  display: none;
 }
 
 .modal-header {
@@ -350,7 +356,7 @@
   justify-content: space-between;
   padding: 32px;
   border-bottom: 2px solid var(--border-light);
-  position: sticky;
+  position: relative;
   top: 0;
   background: inherit;
   z-index: 10;
@@ -722,6 +728,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -732,6 +739,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -743,6 +751,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

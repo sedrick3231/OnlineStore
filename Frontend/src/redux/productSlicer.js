@@ -32,7 +32,6 @@ const productSlice = createSlice({
     error: null,
   },
   reducers: {
-    // ✅ Update stock in real-time when socket event is received
     updateProductStock: (state, action) => {
       const { productId, newStock } = action.payload;
       const product = state.items.find(item => item._id === productId);

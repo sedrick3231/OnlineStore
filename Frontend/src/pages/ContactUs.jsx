@@ -17,10 +17,21 @@ export default function ContactUs() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your API call here
-    console.log("Form submitted:", formData);
+    
+    // try{
+    //   const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/contact`, {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(formData),
+    //   });
+    //   if (!res.ok) {
+    //     throw new Error("Failed to submit contact form");
+    //   }
+    // }catch(error){
+    //   console.error("Error submitting contact form:", error);
+    // }
     setSubmitted(true);
     setTimeout(() => {
       setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
@@ -49,7 +60,7 @@ export default function ContactUs() {
             </div>
             <div className="contact-details">
               <h3 className="contact-label">Email</h3>
-              <p className="contact-value">support@lams.com</p>
+              <p className="contact-value">lamsbyrs@gmail.com</p>
               <p className="contact-meta">We reply within 24 hours</p>
             </div>
           </div>
@@ -61,7 +72,7 @@ export default function ContactUs() {
             </div>
             <div className="contact-details">
               <h3 className="contact-label">Phone</h3>
-              <p className="contact-value">+92 (300) 123-4567</p>
+              <p className="contact-value">+92 (301) 910 1777</p>
               <p className="contact-meta">Monday to Friday, 9AM-6PM</p>
             </div>
           </div>
@@ -74,7 +85,7 @@ export default function ContactUs() {
             <div className="contact-details">
               <h3 className="contact-label">Address</h3>
               <p className="contact-value">LAMS Headquarters</p>
-              <p className="contact-meta">Karachi, Pakistan</p>
+              <p className="contact-meta">Lahore, Pakistan</p>
             </div>
           </div>
         </div>
@@ -132,7 +143,7 @@ export default function ContactUs() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="+92 (300) 123-4567"
+                    placeholder="+92 (301) 910 1777"
                     className="form-input"
                   />
                 </div>

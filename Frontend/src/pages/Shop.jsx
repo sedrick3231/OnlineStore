@@ -14,7 +14,7 @@ function FilterPanel({
   onFilterChange,
   priceInputs,
   onPriceInputChange,
-  onApplyPrice,
+  onApplyFilters,
   onClearFilters,
 }) {
   return (
@@ -106,11 +106,7 @@ function FilterPanel({
               </div>
             </div>
             <div className="shop-price-actions">
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => onApplyPrice(priceInputs.min, priceInputs.max)}
-              >
+              <button type="button" className="btn btn-primary" onClick={onApplyFilters}>
                 Done
               </button>
             </div>
@@ -143,16 +139,21 @@ export default function Shop() {
     minPrice: searchParams.get("minPrice") ? Number(searchParams.get("minPrice")) : null,
     maxPrice: searchParams.get("maxPrice") ? Number(searchParams.get("maxPrice")) : null,
     search: searchParams.get("search") || "",
+    sale: searchParams.get("sale") || "",
+  });
+
+  const [draftFilters, setDraftFilters] = useState({
+    category: searchParams.get("category") || "All",
+    minPrice: searchParams.get("minPrice") ? Number(searchParams.get("minPrice")) : null,
+    maxPrice: searchParams.get("maxPrice") ? Number(searchParams.get("maxPrice")) : null,
+    search: searchParams.get("search") || "",
     fabric: searchParams.get("fabric") || "",
     occasion: searchParams.get("occasion") || "",
     sale: searchParams.get("sale") || "",
   });
 
   const handleFilterChange = (key, value) => {
-    const newParams = new URLSearchParams(searchParams);
-    if (!value || value === "All") newParams.delete(key);
-    else newParams.set(key, value);
-    setSearchParams(newParams);
+    setDraftFilters((prev) => ({ ...prev, [key]: value }));
   };
 
   const applyPriceFilter = (nextMin, nextMax) => {
@@ -176,12 +177,31 @@ export default function Shop() {
       max: maxVal === null ? "" : String(maxVal),
     });
 
-    const newParams = new URLSearchParams(searchParams);
-    if (minVal === null) newParams.delete("minPrice");
-    else newParams.set("minPrice", String(minVal));
-    if (maxVal === null) newParams.delete("maxPrice");
-    else newParams.set("maxPrice", String(maxVal));
+    setDraftFilters((prev) => ({
+      ...prev,
+      minPrice: minVal,
+      maxPrice: maxVal,
+    }));
+
+    return { minVal, maxVal };
+  };
+
+  const applyFilters = () => {
+    const { minVal, maxVal } = applyPriceFilter(priceInputs.min, priceInputs.max);
+    const newParams = new URLSearchParams();
+
+    if (draftFilters.category && draftFilters.category !== "All") {
+      newParams.set("category", draftFilters.category);
+    }
+    if (draftFilters.search) newParams.set("search", draftFilters.search);
+    if (draftFilters.fabric) newParams.set("fabric", draftFilters.fabric);
+    if (draftFilters.occasion) newParams.set("occasion", draftFilters.occasion);
+    if (draftFilters.sale) newParams.set("sale", draftFilters.sale);
+    if (minVal !== null) newParams.set("minPrice", String(minVal));
+    if (maxVal !== null) newParams.set("maxPrice", String(maxVal));
+
     setSearchParams(newParams);
+    setMobileFiltersOpen(false);
   };
 
   useEffect(() => {
@@ -197,6 +217,15 @@ export default function Shop() {
     setPriceInputs({
       min: searchParams.get("minPrice") || "",
       max: searchParams.get("maxPrice") || "",
+    });
+    setDraftFilters({
+      category: searchParams.get("category") || "All",
+      minPrice: searchParams.get("minPrice") ? Number(searchParams.get("minPrice")) : null,
+      maxPrice: searchParams.get("maxPrice") ? Number(searchParams.get("maxPrice")) : null,
+      search: searchParams.get("search") || "",
+      fabric: searchParams.get("fabric") || "",
+      occasion: searchParams.get("occasion") || "",
+      sale: searchParams.get("sale") || "",
     });
   }, [searchParams]);
 
@@ -246,6 +275,7 @@ export default function Shop() {
     filters.fabric ? `Fabric: ${filters.fabric}` : null,
     filters.occasion ? `Occasion: ${filters.occasion}` : null,
     filters.search ? `Search: ${filters.search}` : null,
+    filters.sale ? "Sale: On" : null,
     filters.minPrice !== null || filters.maxPrice !== null
       ? `Price: ${filters.minPrice ?? "Min"}-${filters.maxPrice ?? "Max"}`
       : null,
@@ -272,13 +302,12 @@ export default function Shop() {
           <input
             className="shop-search-input"
             placeholder="Search for a suit, fabric, or occasion"
-            value={filters.search}
+            value={draftFilters.search}
             onChange={(e) => handleFilterChange("search", e.target.value)}
           />
         </div>
 
         <div className="shop-toolbar">
-          <span className="shop-count">{filteredProducts.length} items</span>
           <button onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)} className="shop-filter-toggle">
             {mobileFiltersOpen ? (
               <X className="w-4 h-4" />
@@ -292,12 +321,12 @@ export default function Shop() {
         {mobileFiltersOpen && (
           <div className="shop-filter-dropdown">
             <FilterPanel
-              filters={filters}
+              filters={draftFilters}
               categories={categories}
               onFilterChange={handleFilterChange}
               priceInputs={priceInputs}
               onPriceInputChange={handlePriceInputChange}
-              onApplyPrice={applyPriceFilter}
+              onApplyFilters={applyFilters}
               onClearFilters={clearFilters}
             />
           </div>
@@ -315,12 +344,12 @@ export default function Shop() {
         <div className="shop-layout">
           <aside className="shop-sidebar">
             <FilterPanel
-              filters={filters}
+              filters={draftFilters}
               categories={categories}
               onFilterChange={handleFilterChange}
               priceInputs={priceInputs}
               onPriceInputChange={handlePriceInputChange}
-              onApplyPrice={applyPriceFilter}
+              onApplyFilters={applyFilters}
               onClearFilters={clearFilters}
             />
           </aside>

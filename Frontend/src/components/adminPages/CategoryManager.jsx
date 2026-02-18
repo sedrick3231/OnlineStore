@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Trash2, Upload } from "lucide-react";
-import { addCategory, createCategoryAsync, deleteCategoryAsync, fetchCategories, removeCategory } from "../../redux/categorySlicer";
+import { createCategoryAsync, deleteCategoryAsync, fetchCategories } from "../../redux/categorySlicer";
 import ImageCropModal from "../../utils/ImageCropModal";
 import "./admin.css";
 
@@ -22,21 +22,11 @@ export default function CategoryManager() {
   const [success, setSuccess] = useState("");
   const [cropModalOpen, setCropModalOpen] = useState(false);
   const [tempImageSrc, setTempImageSrc] = useState("");
-  const [useBackend, setUseBackend] = useState(false);
 
   const previewName = useMemo(() => name.trim() || "New Category", [name]);
 
-  // Check if admin is logged in
   useEffect(() => {
-    const token = localStorage.getItem("adminAccessToken");
-    setUseBackend(!!token);
-    
-    if (token) {
-      dispatch(fetchCategories()).catch(() => {
-        console.log("Backend not available, using localStorage");
-        setUseBackend(false);
-      });
-    }
+    dispatch(fetchCategories());
   }, [dispatch]);
 
   const handleImageChange = (event) => {
@@ -84,15 +74,15 @@ export default function CategoryManager() {
     };
 
     try {
-      if (useBackend) {
-        // Try backend first
-        await dispatch(createCategoryAsync(categoryData)).unwrap();
-        setSuccess(`Category "${trimmed}" created successfully!`);
-      } else {
-        // Use local storage only
-        dispatch(addCategory(categoryData));
-        setSuccess(`Category "${trimmed}" created locally!`);
+      const token = localStorage.getItem("adminAccessToken");
+      if (!token) {
+        setError("Admin token is missing. Please login as admin.");
+        setSuccess("");
+        return;
       }
+
+      await dispatch(createCategoryAsync(categoryData)).unwrap();
+      setSuccess(`Category "${trimmed}" created successfully!`);
       
       setName("");
       setImageData("");
@@ -101,16 +91,8 @@ export default function CategoryManager() {
       // Clear success message after 3 seconds
       setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
-      // If backend fails, fall back to localStorage
-      if (useBackend) {
-        dispatch(addCategory(categoryData));
-        setSuccess(`Category "${trimmed}" created locally (backend unavailable)`);
-        setUseBackend(false);
-        setTimeout(() => setSuccess(""), 3000);
-      } else {
-        setError(err || "Failed to create category");
-        setSuccess("");
-      }
+      setError(err || "Failed to create category");
+      setSuccess("");
     }
   };
 
@@ -120,24 +102,18 @@ export default function CategoryManager() {
     }
 
     try {
-      if (useBackend) {
-        await dispatch(deleteCategoryAsync(id)).unwrap();
-        setSuccess(`Category deleted successfully!`);
-      } else {
-        dispatch(removeCategory(id));
-        setSuccess(`Category deleted locally!`);
+      const token = localStorage.getItem("adminAccessToken");
+      if (!token) {
+        setError("Admin token is missing. Please login as admin.");
+        setSuccess("");
+        return;
       }
+
+      await dispatch(deleteCategoryAsync(id)).unwrap();
+      setSuccess(`Category deleted successfully!`);
       setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
-      // If backend fails, fall back to localStorage
-      if (useBackend) {
-        dispatch(removeCategory(id));
-        setSuccess(`Category deleted locally (backend unavailable)`);
-        setUseBackend(false);
-        setTimeout(() => setSuccess(""), 3000);
-      } else {
-        setError(err || "Failed to delete category");
-      }
+      setError(err || "Failed to delete category");
     }
   };
 

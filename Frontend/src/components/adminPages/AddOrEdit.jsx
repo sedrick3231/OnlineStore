@@ -15,20 +15,7 @@ export default function AddOrEditModal({ Component }) {
 
   return (
     <div className="admin-modal-wrapper">
-      <div className="admin-modal-header-bar">
-        <button
-          onClick={handleClose}
-          aria-label="Go back"
-          className="admin-modal-back-btn"
-        >
-          <ArrowLeft className="admin-modal-back-icon" />
-          <span>Go Back</span>
-        </button>
-      </div>
-
-      <div className="admin-modal-content-wrapper">
         {Component && <Component product={product} />}
-      </div>
     </div>
   );
 }

@@ -397,6 +397,10 @@
   transform:translateY(0);
 }
 
+.shop-price-actions .btn{
+  width: 100%;
+}
+
 .shop-filter-btn{
   flex:1;
   border-radius:14px;

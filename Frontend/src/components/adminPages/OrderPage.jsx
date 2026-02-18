@@ -1,7 +1,8 @@
 import { Calendar, DollarSign, Filter, Package, Search, TrendingUp } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import socket from "../../socket";
 import "./admin.css";
 
 const url = import.meta.env.VITE_BACKEND_URL;
@@ -19,25 +20,38 @@ export default function OrdersPage() {
     navigate(`/admin/order/${order._id}`, { state: { order } });
   };
 
-  useEffect(() => {
-    const getOrders = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`${url}/admin/api/v1/getOrders`, {
-          credentials: "include",
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-        });
-        const result = await response.json();
-        setOrders(result.Orders);
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getOrders();
+  const getOrders = useCallback(async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${url}/admin/api/v1/getOrders`, {
+        credentials: "include",
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      const result = await response.json();
+      setOrders(result.Orders);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    getOrders();
+  }, [getOrders]);
+
+  useEffect(() => {
+    const handleOrderCreated = () => {
+      getOrders();
+    };
+
+    socket.on("order:created", handleOrderCreated);
+
+    return () => {
+      socket.off("order:created", handleOrderCreated);
+    };
+  }, [getOrders]);
 
   const GetDate = (registrationDate) => {
     const date = new Date(registrationDate);

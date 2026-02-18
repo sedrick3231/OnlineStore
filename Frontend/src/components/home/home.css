@@ -511,7 +511,7 @@
   .sale-banner-close svg {
     font-size: 14px;
   }
-}
+
 
   .sale-banner-subtitle {
     font-size: 11px;
@@ -1183,9 +1183,9 @@
 }
 
 .newsletter-input{
-  min-width:240px;
+  width: 100%;
   flex:1;
-  max-width:380px;
+  
 }
 
 .newsletter-input input{

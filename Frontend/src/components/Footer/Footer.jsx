@@ -23,10 +23,8 @@ export default function Footer() {
   ];
 
   const socialLinks = [
-    { label: "Facebook", url: "https://facebook.com/lamsstore", icon: Facebook },
-    { label: "Instagram", url: "https://instagram.com/lamsstore", icon: Instagram },
-    { label: "LinkedIn", url: "https://linkedin.com/company/lamsstore", icon: Linkedin },
-    { label: "Email", url: "mailto:support@lams.com", icon: Mail },
+    { label: "Instagram", url: "https://www.instagram.com/lamsbyrs", icon: Instagram },
+    { label: "Email", url: "mailto:lamsbyrs@gmail.com", icon: Mail },
   ];
 
   return (

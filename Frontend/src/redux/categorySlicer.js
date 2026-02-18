@@ -1,28 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const STORAGE_KEY = "categories";
 const API_URL = import.meta.env.VITE_BACKEND_URL;
-
-const loadCategories = () => {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    return parsed;
-  } catch {
-    return [];
-  }
-};
-
-const saveCategories = (items) => {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-  } catch {
-    // Ignore persistence errors.
-  }
-};
 
 const toId = (name) =>
   name
@@ -37,16 +16,7 @@ export const fetchCategories = createAsyncThunk(
   "categories/fetch",
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("adminAccessToken");
-      if (!token) {
-        // If no token, just return empty array and use localStorage data
-        return [];
-      }
-      const response = await axios.get(`${API_URL}/admin/api/v1/categories`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(`${API_URL}/user/api/v1/categories`);
       return response.data.categories;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Failed to fetch categories");
@@ -123,7 +93,7 @@ export const deleteCategoryAsync = createAsyncThunk(
 );
 
 const initialState = {
-  items: loadCategories(),
+  items: [],
   loading: false,
   error: null,
 };
@@ -132,45 +102,25 @@ const categorySlice = createSlice({
   name: "categories",
   initialState,
   reducers: {
-    addCategory(state, action) {
-      const name = action.payload?.name?.trim();
+    upsertCategoryFromSocket(state, action) {
+      const payload = action.payload || {};
+      const name = typeof payload.name === "string" ? payload.name.trim() : "";
       if (!name) return;
 
-      const id = toId(name);
-      const exists = state.items.some(
-        (item) => item.name.toLowerCase() === name.toLowerCase() || item.id === id
-      );
-      if (exists) return;
+      const id = payload.id || toId(name);
+      const image = typeof payload.image === "string" ? payload.image : "";
+      const existingIndex = state.items.findIndex((item) => item.id === id);
+      const updatedCategory = { id, name, image };
 
-      const newCategory = {
-        id,
-        name,
-        image: action.payload?.image || "",
-      };
-      state.items = [...state.items, newCategory];
-      saveCategories(state.items);
+      if (existingIndex >= 0) {
+        state.items[existingIndex] = { ...state.items[existingIndex], ...updatedCategory };
+      } else {
+        state.items.push(updatedCategory);
+      }
     },
     removeCategory(state, action) {
       const id = action.payload;
       state.items = state.items.filter((item) => item.id !== id);
-      saveCategories(state.items);
-    },
-    updateCategory(state, action) {
-      const { id, name, image } = action.payload || {};
-      state.items = state.items.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              name: name?.trim() || item.name,
-              image: typeof image === "string" ? image : item.image,
-            }
-          : item
-      );
-      saveCategories(state.items);
-    },
-    replaceCategories(state, action) {
-      state.items = Array.isArray(action.payload) ? action.payload : state.items;
-      saveCategories(state.items);
     },
   },
   extraReducers: (builder) => {
@@ -183,12 +133,10 @@ const categorySlice = createSlice({
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
-        saveCategories(action.payload);
       })
       .addCase(fetchCategories.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        // Keep localStorage data on error
       })
       // Create category
       .addCase(createCategoryAsync.pending, (state) => {
@@ -198,7 +146,6 @@ const categorySlice = createSlice({
       .addCase(createCategoryAsync.fulfilled, (state, action) => {
         state.loading = false;
         state.items.push(action.payload);
-        saveCategories(state.items);
       })
       .addCase(createCategoryAsync.rejected, (state, action) => {
         state.loading = false;
@@ -215,7 +162,6 @@ const categorySlice = createSlice({
         state.items = state.items.map((item) =>
           item.id === updatedCategory.id ? updatedCategory : item
         );
-        saveCategories(state.items);
       })
       .addCase(updateCategoryAsync.rejected, (state, action) => {
         state.loading = false;
@@ -229,7 +175,6 @@ const categorySlice = createSlice({
       .addCase(deleteCategoryAsync.fulfilled, (state, action) => {
         state.loading = false;
         state.items = state.items.filter((item) => item.id !== action.payload);
-        saveCategories(state.items);
       })
       .addCase(deleteCategoryAsync.rejected, (state, action) => {
         state.loading = false;
@@ -238,7 +183,9 @@ const categorySlice = createSlice({
   },
 });
 
-export const { addCategory, removeCategory, updateCategory, replaceCategories } =
-  categorySlice.actions;
+export const {
+  upsertCategoryFromSocket,
+  removeCategory,
+} = categorySlice.actions;
 
 export default categorySlice.reducer;

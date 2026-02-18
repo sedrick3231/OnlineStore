@@ -11,7 +11,7 @@ const url = import.meta.env.VITE_BACKEND_URL;
 export default function SalesManagementPage() {
   const navigate = useNavigate();
   const products = useSelector((state) => state.products?.items || []);
-  
+
   const [saleType, setSaleType] = useState("all");
   const [selectedProduct, setSelectedProduct] = useState("");
   const [salePercentage, setSalePercentage] = useState("");
@@ -20,11 +20,11 @@ export default function SalesManagementPage() {
   // Calculate sale price for preview
   const getPreviewPrice = () => {
     if (!salePercentage) return null;
-    
+
     const productPrice = selectedProduct
       ? products.find(p => p._id === selectedProduct)?.price
       : products[0]?.price;
-    
+
     if (!productPrice) return null;
     return Math.round(productPrice - (productPrice * salePercentage / 100));
   };
@@ -42,7 +42,7 @@ export default function SalesManagementPage() {
 
     setLoading(true);
     try {
-      const endpoint = saleType === "all" 
+      const endpoint = saleType === "all"
         ? `${url}/products/apply-sale-all`
         : `${url}/products/apply-sale/${selectedProduct}`;
 
@@ -51,15 +51,15 @@ export default function SalesManagementPage() {
       }, { withCredentials: true });
 
       toast.success(
-        saleType === "all" 
-          ? `Sale applied to all ${res.data.modifiedCount} products!` 
+        saleType === "all"
+          ? `Sale applied to all ${res.data.modifiedCount} products!`
           : `Sale applied successfully!`
       );
-      
+
       // Reset form
       setSalePercentage("");
       setSelectedProduct("");
-      
+
       // Navigate back after success
       setTimeout(() => navigate("/admin/products"), 1500);
     } catch (error) {
@@ -109,13 +109,6 @@ export default function SalesManagementPage() {
     <div className="sales-management-page">
       {/* Header */}
       <div className="sales-page-header-bar">
-        <button
-          onClick={() => navigate("/admin/products")}
-          className="sales-page-back-btn"
-        >
-          <ArrowLeft size={18} />
-          Back
-        </button>
         <div>
           <h1 className="sales-page-title">Sales Management</h1>
           <p className="sales-page-subtitle">Manage product discounts and promotions</p>
@@ -291,25 +284,25 @@ export default function SalesManagementPage() {
           </div>
         </div>
 
-          {/* Current Sales Stats */}
-          <div className="sales-stats-card">
-            <h3 className="sales-stats-title">Current Sales</h3>
-            <div className="sales-stat-item">
-              <span className="sales-stat-label">Products on Sale</span>
-              <span className="sales-stat-value">{saleProducts.length}</span>
-            </div>
-            {saleProducts.length > 0 && (
-              <div className="sales-product-list">
-                {saleProducts.map((product) => (
-                  <div key={product._id} className="sales-product-item">
-                    <span className="sales-product-name">{product.name}</span>
-                    <span className="sales-product-discount">{product.salePercentage}% OFF</span>
-                  </div>
-                ))}
-              </div>
-            )}
+        {/* Current Sales Stats */}
+        <div className="sales-stats-card">
+          <h3 className="sales-stats-title">Current Sales</h3>
+          <div className="sales-stat-item">
+            <span className="sales-stat-label">Products on Sale</span>
+            <span className="sales-stat-value">{saleProducts.length}</span>
           </div>
+          {saleProducts.length > 0 && (
+            <div className="sales-product-list">
+              {saleProducts.map((product) => (
+                <div key={product._id} className="sales-product-item">
+                  <span className="sales-product-name">{product.name}</span>
+                  <span className="sales-product-discount">{product.salePercentage}% OFF</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
+    </div>
   );
 }

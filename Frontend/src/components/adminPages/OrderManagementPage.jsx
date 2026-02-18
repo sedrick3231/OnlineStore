@@ -148,10 +148,6 @@ export default function OrderManagementPage({ orders = [], users = [], onStatusC
     <div className="order-management-page">
       {/* Header */}
       <div className="order-page-header-bar">
-        <button onClick={() => navigate(-1)} className="order-page-back-btn">
-          <ArrowLeft size={20} />
-          Back
-        </button>
         <div className="order-page-header-content">
           <h1 className="order-page-title">Order Details</h1>
           <p className="order-page-subtitle">Order ID: {selectedOrder._id?.slice(-8) || "N/A"}</p>

@@ -67,11 +67,15 @@ export default function ProductPage() {
           <p className="admin-page-subtitle">{filteredProducts.length} products in total</p>
         </div>
         <div style={{display: "flex", gap: "12px"}}>
-          <Button className="admin-btn-secondary" onClick={() => navigate("/admin/sales")}>
+          <Button
+            className="admin-btn-secondary"
+            style={{ color: "#e8e7e7" }}
+            onClick={() => navigate("/admin/sales")}
+          > 
             <Tag size={18} /> Manage Sales
           </Button>
           <Link to="/admin/add">
-            <Button className="admin-btn-primary">
+            <Button className="admin-btn-primary" style={{ color: "#e8e7e7" }}>
               <Plus size={18} /> Add Product
             </Button>
           </Link>

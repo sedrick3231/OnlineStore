@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
 const sendOTPEmail = async (email, otp) => {
   try {
     const info = await transporter.sendMail({
-      from: `"Solvia" <${process.env.EMAIL_USER}>`,
+      from: `"LAMS" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Your One-Time Password (OTP) – Expires in 5 Minutes",
       text: `Hello,
@@ -92,5 +92,37 @@ export const verifyUserOTP = async (req, res) => {
       success: false,
       message: error.message,
     });
+  }
+};
+
+export const contactUs = async (req, res) => {
+  try {
+    const { name, email, phone, subject, message } = req.body;
+    if (!name || !email || !subject || !message) {
+      return res.status(400).json({ success: false, message: "All fields except phone are required" });
+    }
+
+    await transporter.sendMail({
+      from: `"LAMS" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER,
+      subject: `Contact Us Form Submission: ${subject}`,
+      html: `
+    <h2>New Contact Us Message</h2>
+    <p><strong>Name:</strong> ${name}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>Phone:</strong> ${phone || "N/A"}</p>
+    <p><strong>Subject:</strong> ${subject}</p>
+    <p><strong>Message:</strong></p>
+    <p>${message}</p>
+    <hr>
+    <p>Please respond to the user as soon as possible.</p>
+  `,
+    });
+
+
+    res.status(200).json({ success: true, message: "Your message has been sent successfully!" });
+  } catch (error) {
+    console.error("Error sending contact us email:", error);
+    res.status(500).json({ success: false, message: "Failed to send your message. Please try again later." });
   }
 };

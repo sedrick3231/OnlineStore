@@ -9,6 +9,7 @@ import authenticateAdmin from "./middlewares/authentication.js";
 import adminRoute from "./routes/adminRoute.js";
 import productRoute from './routes/productRoute.js';
 import userRoute from "./routes/userRoutes.js";
+import { contactUs } from "./controllers/emailServices.js";
 
 const app = express();
 dotenv.config();
@@ -42,9 +43,12 @@ const io = new Server(server, {
 // Socket.io connection handlers
 io.on("connection", (socket) => {
 
-  socket.on("disconnect", () => {
+  socket.on("client:ping", () => {
+    socket.emit("server:pong", { timestamp: new Date().toISOString() });
   });
 
+  socket.on("disconnect", () => {
+  });
   // Handle errors
   socket.on("error", (error) => {
     console.error("Socket error:", error);
@@ -74,6 +78,7 @@ const asyncHandler = (fn) => (req, res, next) => {
 app.use("/user", userRoute);
 app.use("/admin", authenticateAdmin, adminRoute);
 app.use("/products", productRoute);
+app.post("/contact", contactUs);
 
 // 404 handler
 app.use((req, res) => {
@@ -100,5 +105,4 @@ const PORT = process.env.PORT || 5000;
 export { io };
 
 server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
 });
