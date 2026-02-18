@@ -71,7 +71,6 @@ const userSchema = new mongoose.Schema(
 );
 
 // Add indexes for frequently queried fields
-userSchema.index({ email: 1 });
 userSchema.index({ createdAt: -1 });
 
 const User = mongoose.model("User", userSchema);
